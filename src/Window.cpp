@@ -1,5 +1,7 @@
 #include "Window.h"
+#include "../dependencies/stb_image.h"
 #include <iostream>
+
 
 Window::Window(int width, int height, const std::string& title)
     : m_width(width), m_height(height), m_title(title), m_windowHandle(nullptr)
@@ -35,13 +37,42 @@ bool Window::init() {
         return false;
     }
 
+    // --- WINDOW ICON SETUP ---
+    int width, height, channels;
+    // Force 4 channels (RGBA) so GLFW handles the transparency channel natively
+    unsigned char* pixels = stbi_load("assets/icons/logo.png", &width, &height, &channels, 4);
+
+    if (pixels) {
+        GLFWimage icon[1];
+        icon[0].width = width;
+        icon[0].height = height;
+        icon[0].pixels = pixels;
+
+        // Set the title bar icon context
+        glfwSetWindowIcon(m_windowHandle, 1, icon);
+
+        // Free the CPU RAM allocation since pixels are handed to GLFW/GPU
+        stbi_image_free(pixels);
+    }
+    else {
+        std::clog << "[NEO ENGINE] Note: Runtime window icon asset not found at assets/icons/logo.png\n";
+    }
+
     glfwMakeContextCurrent(m_windowHandle);
 
     // Initialize GLAD to parse and fetch your vendor's specific GPU driver functions
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-        std::cerr << "[ERROR] Failed to initialize GLAD!" << std::endl;
+        std::cerr << "Failed to initialize GLAD" << std::endl;
         return false;
     }
+
+    
+    glEnable(GL_DEBUG_OUTPUT);
+    glDebugMessageCallback([](GLenum /*source*/, GLenum type, GLuint /*id*/, GLenum severity, GLsizei /*length*/, const GLchar* message, const void* /*userParam*/) {
+        std::cerr << "GL CALLBACK: " << (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : "")
+            << " type = " << type << ", severity = " << severity
+            << ", message = " << message << std::endl;
+        }, nullptr);
 
     glViewport(0, 0, m_width, m_height);
 
