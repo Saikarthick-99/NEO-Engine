@@ -24,7 +24,7 @@ file(GLOB_RECURSE ENGINE_SOURCES "src/*.cpp")
 file(GLOB_RECURSE ENGINE_HEADERS "include/*.h")
 
 # Define our final executable target game engine
-add_executable(${PROJECT_NAME} ${ENGINE_SOURCES} ${ENGINE_HEADERS})
+add_executable(${PROJECT_NAME} ${ENGINE_SOURCES} ${ENGINE_HEADERS} "include/Window.h" "src/Window.cpp")
 
 # Expose header folders so our files can find each other via #include
 target_include_directories(${PROJECT_NAME} PUBLIC 
