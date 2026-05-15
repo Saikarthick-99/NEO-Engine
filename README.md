@@ -1,4 +1,4 @@
-# NEO Engine 🌌
+# NEO Engine
 
 **NEO (Next-gen Engine Object)** is a custom, high-performance 3D game engine built from scratch in C++20 and modern OpenGL 4.6 Core Profile. Inspired by raw, high-refresh-rate rendering frameworks, NEO focuses on explicit architecture, high performance, and advanced rendering techniques like point-cloud-based global illumination.
 
