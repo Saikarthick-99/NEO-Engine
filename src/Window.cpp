@@ -40,7 +40,7 @@ bool Window::init() {
     // --- WINDOW ICON SETUP ---
     int width, height, channels;
     // Force 4 channels (RGBA) so GLFW handles the transparency channel natively
-    unsigned char* pixels = stbi_load("assets/icons/logo.png", &width, &height, &channels, 4);
+    unsigned char* pixels = stbi_load("assets/logo.png", &width, &height, &channels, 4);
 
     if (pixels) {
         GLFWimage icon[1];

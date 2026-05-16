@@ -1,10 +1,14 @@
 #version 460 core
 layout (location = 0) in vec3 aPos;
+layout (location = 1) in vec2 aTexCoord; // Captured from attribute pointer 1
 
-uniform mat4 transform; // Our rotation matrix passed from C++
+out vec2 TexCoord; // Passed out to fragment shader
+
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
 
 void main() {
-    // Multiply the matrix by the position vector
-    // CRITICAL: Matrix multiplication order matters in GLSL (Matrix * Vector)
-    gl_Position = transform * vec4(aPos, 1.0);
+    gl_Position = projection * view * model * vec4(aPos, 1.0);
+    TexCoord = aTexCoord; 
 }

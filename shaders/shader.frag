@@ -1,9 +1,14 @@
 #version 460 core
-
-// Output color variable that maps straight to your screen pixels
 out vec4 FragColor;
 
+in vec2 TexCoord;
+
+// Declaring separate texture sample locations
+uniform sampler2D texture1;
+uniform sampler2D texture2;
+
 void main() {
-    // Output a solid neon cyan color (Red=0.0, Green=1.0, Blue=1.0, Alpha=1.0)
-    FragColor = vec4(0.0, 1.0, 1.0, 1.0);
+    // Linearly blend both textures together. 
+    // The third parameter (0.2) means: 80% texture1 + 20% texture2
+    FragColor = mix(texture(texture1, TexCoord), texture(texture2, TexCoord), 0.2);
 }
